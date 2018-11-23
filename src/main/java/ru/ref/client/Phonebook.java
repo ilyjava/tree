@@ -26,6 +26,7 @@ public class Phonebook implements EntryPoint, TreeListener {
     private ServiceAsync service = GWT.create(Service.class);
 
     HorizontalSplitPanel horizontalSplitPanel = new HorizontalSplitPanel();
+    Tree tree = new Tree();
 
     public void onModuleLoad() {
 
@@ -167,10 +168,10 @@ public class Phonebook implements EntryPoint, TreeListener {
 
 // Create a Horizontal Split Panel
 
-        horizontalSplitPanel.setSize("300px", "200px");
+        horizontalSplitPanel.setSize("600px", "400px");
         horizontalSplitPanel.setSplitPosition("30%");
 
-        Tree tree = new Tree();
+
         TreeItem treeFirst = new TreeItem();
         treeFirst.setText("Первый раздел");
         treeFirst.addTextItem("Первая глава");
@@ -202,17 +203,19 @@ public class Phonebook implements EntryPoint, TreeListener {
 
     @Override
     public void onTreeItemSelected(TreeItem treeItem) {
-        Label header = new Label();
-        header.setText(treeItem.getText());
 
-        Label info = new Label();
-        info.setText("Содержание раздела "+treeItem.getText());
-
-        VerticalPanel vp = new VerticalPanel();
-        vp.add(header);
-        vp.add(info);
-
-        horizontalSplitPanel.setRightWidget(vp);
+        TextBoxSection textBoxSection = new TextBoxSection();
+        RadioButtonSection radioButtonSection = new RadioButtonSection();
+        GridSection gridSection = new GridSection();
+        if (treeItem.getText().equals("Первая глава") || treeItem.getText().equals("Первый раздел")){
+            horizontalSplitPanel.setRightWidget(textBoxSection.create());
+        }
+        else if (treeItem.getText().equals("Вторая глава") || treeItem.getText().equals("Второй раздел")){
+            horizontalSplitPanel.setRightWidget(radioButtonSection.create());
+        }
+        else if (treeItem.getText().equals("Третья глава") || treeItem.getText().equals("Третий раздел")){
+            horizontalSplitPanel.setRightWidget(gridSection.create());
+        }
     }
 
     @Override
